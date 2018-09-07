@@ -7,7 +7,7 @@ http://github.com/ftrias/pyembedc
 Version 1.2: 6 Sep 2018
 
 Copyright 2010-2018 by Fernando Trias
-See LICENSE for terms of use.
+See LICENSE for MIT license terms of use.
 
 
 ## PREREQUISITES

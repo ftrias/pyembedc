@@ -1,13 +1,20 @@
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
+import setuptools
+
+with open("README.md", "r") as fh:
+    long_description = fh.read()
     
-setup(name='pyembedc',
-    version='1.20',
-    py_modules=['pyembedc'],
-    description='Embedded C/C++ in Python Source',
-    author='Fernando Trias',
-    author_email='sub@trias.org',
-    url='http://github.com/ftrias/pyembedc'
-    )
+setuptools.setup(
+    name="pyembedc",
+    version="1.22",
+    author="Fernando Trias",
+    author_email="sub@trias.org",
+    description="Embedded C/C++ in Python Source",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="http://github.com/ftrias/pyembedc",
+    packages=setuptools.find_packages(),
+    classifiers=[
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+)

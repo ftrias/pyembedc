@@ -1,3 +1,7 @@
 *.dll
 *.cpp.dll
 __pycache__
+dist
+build
+notes.txt
+*.egg*
