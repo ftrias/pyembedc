@@ -9,11 +9,10 @@ Version 1.2: 6 Sep 2018
 Copyright 2010-2018 by Fernando Trias
 See LICENSE for MIT license terms of use.
 
-
 ## PREREQUISITES
 
-* GCC version 3 or higher
-* Python 2.5 or higher (also compatible with Python 3)
+* gcc (version 3 or higher) or clang
+* Python 2.5, 3 or higher
 
 ## INSTALL
 
@@ -152,6 +151,9 @@ For example:
 POST free(mydata);
 ```
 
+#### `CC command`
+
+Use `command` instead of `gcc` as compiler. The command must be suitable for passing into a shell. The file name is appended at the end of the command.
 
 ## SPECIAL CONSIDERATIONS
 
@@ -169,9 +171,10 @@ The `test-coverage` script uses multiple python versions (2.5, 2.6, 3.1) and pyt
 
 This module has been tested on:
 
-* Windows Vista with Cygwin Python 2.5 and GCC (mixed results, see Notes)
-* Windows Vista with official Python 2.5 and 2.6 and MinGW
+* Windows 7 with Cygwin Python 2.5 and GCC (mixed results, see Notes)
+* Windows 7 with official Python 2.5 and 2.6 and MinGW
 * Ubuntu (Debian Linux 2.6 kernel), Python 2.5, 2.6 and 3.1 and gcc 4.4.1
+* MacOS (High Sierra 10.13), Python 3.5.5, Xcode 9 with command line tools
 
 ## TODO
 

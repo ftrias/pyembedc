@@ -313,7 +313,7 @@ class _CodeFragment:
                 self.prefunc.append(line)
                 continue
             if directive == "GLOBAL":
-                exp = line.replace("GLOBAL","", 1)
+                exp = line.replace("GLOBAL","", 1).strip()
                 self.prefunc.append("#line %d" % subline)
                 self.prefunc.append(exp)
                 continue
