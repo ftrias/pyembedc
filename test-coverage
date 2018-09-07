@@ -1,0 +1,39 @@
+#!/bin/sh
+#
+# Tests that ensure coverage of most source code and scenarios
+#
+# Use the coverage tool at http://nedbatchelder.com/code/coverage
+# May also be an installable package (python-coverage)
+#
+
+# clean up environment
+coverage -e
+
+# test different python versions
+rm -f test.py.cpp.so
+rm -f test.py.cpp.dll
+python2.5 test.py
+
+rm -f test.py.cpp.so
+rm -f test.py.cpp.dll
+python2.6 test.py
+
+rm -f test.py.cpp.so
+rm -f test.py.cpp.dll
+python3.1 test.py
+
+rm -f test.py.cpp.so
+rm -f test.py.cpp.dll
+
+# test scenario with no pre-compiled libraries
+coverage -x --timid test.py
+# test with up-to-date libraries
+coverage -x test.py
+# test with old libraries
+touch --date yesterday test.py.cpp.so
+coverage -x test.py
+
+# show results; the __del__ function runs, but isn't covered in the output
+# also Windows code won't be covered on Linux and vice versa
+coverage -r -m embedc.py
+
