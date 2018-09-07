@@ -35,5 +35,5 @@ coverage -x test.py
 
 # show results; the __del__ function runs, but isn't covered in the output
 # also Windows code won't be covered on Linux and vice versa
-coverage -r -m embedc.py
+coverage -r -m pyembedc.py
 

@@ -1,4 +1,4 @@
-from embedc import C
+from pyembedc import C
 
 def myround(number):
     return round(number, 1)

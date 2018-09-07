@@ -2,7 +2,7 @@ import unittest
 import inspect
 import ctypes
 
-import embedc
+import pyembedc as c
 
 globalvariable = 5
 
@@ -12,29 +12,29 @@ class TestSequenceFunctions(unittest.TestCase):
         pass
 
     def test_embed_return(self):
-        r = embedc.inline_c_precompile("""
+        r = c.inline_c_precompile("""
                 return  15;
                 """)
         self.assertEqual(r, 15)
         
-        r = embedc.inline_c_precompile("""
+        r = c.inline_c_precompile("""
                 return  -10;
                 """)
         self.assertEqual(r, -10)
 
     def test_embed_simple(self):
-        r = embedc.C("""
+        r = c.C("""
                 return  19;
                 """)
         self.assertEqual(r, 19)
 
     def test_embed_return_str(self):
-        r = embedc.inline_c_precompile("""
+        r = c.inline_c_precompile("""
                 RETURN string (char *)"xyz";
                 """)
         self.assertEqual(r, "xyz")
         
-        r = embedc.inline_c_precompile("""
+        r = c.inline_c_precompile("""
                 RETURN ustring (wchar_t *)L"abc";
                 """)
         self.assertEqual(r, "abc")
@@ -43,7 +43,7 @@ class TestSequenceFunctions(unittest.TestCase):
         test1=9
         global test2
         test2=11
-        r = embedc.inline_c_precompile("""
+        r = c.inline_c_precompile("""
             IMPORT int test1
             IMPORT int &test2
             if (test1 != 9) {
@@ -62,7 +62,7 @@ class TestSequenceFunctions(unittest.TestCase):
         test1=9
         a=[2,4,6]
         b=(9,10,11)
-        r = embedc.inline_c_precompile("""
+        r = c.inline_c_precompile("""
             IMPORT int &test1
             IMPORT int[] a
             IMPORT int[] b
@@ -81,7 +81,7 @@ class TestSequenceFunctions(unittest.TestCase):
     def test_embed_tuple(self):
         global arrayb
         arrayb=(9,10,11)
-        r = embedc.inline_c_precompile("""
+        r = c.inline_c_precompile("""
             IMPORT int[] arrayb
             arrayb[0]=15;
             """)
@@ -91,7 +91,7 @@ class TestSequenceFunctions(unittest.TestCase):
         test1=9.9
         global test2
         test2=11.1
-        r = embedc.inline_c_precompile("""
+        r = c.inline_c_precompile("""
             IMPORT double test1
             IMPORT double &test2
             if (test1 != 9.9) {
@@ -110,7 +110,7 @@ class TestSequenceFunctions(unittest.TestCase):
         global test1
         test1=[5,10,15]
         test2=[]
-        r = embedc.inline_c_precompile("""
+        r = c.inline_c_precompile("""
             IMPORT int[] test1
             IMPORT int[] test2
             if (test1[0] != 5) return 1;
@@ -131,7 +131,7 @@ class TestSequenceFunctions(unittest.TestCase):
         global strtest2
         strtest2="one two"
         strtest3="two three"
-        r = embedc.inline_c_precompile("""
+        r = c.inline_c_precompile("""
             GLOBAL char *savstr;
             IMPORT string strtest1;
             IMPORT string &strtest2;
@@ -153,7 +153,7 @@ class TestSequenceFunctions(unittest.TestCase):
     def test_embed_unicode_string(self):
         global strtest9
         strtest9="one two"
-        r = embedc.inline_c_precompile("""
+        r = c.inline_c_precompile("""
             IMPORT ustring &strtest9;
             strtest9 = (wchar_t*)L"nine ten";
             """)
@@ -161,7 +161,7 @@ class TestSequenceFunctions(unittest.TestCase):
 
     def sub_test_ctypes_error(self):
         x=ctypes.c_int   # we should really define an instance; this defines a type
-        embedc.inline_c_precompile("""
+        c.inline_c_precompile("""
             IMPORT int x
             x=10;
             """)
@@ -169,33 +169,33 @@ class TestSequenceFunctions(unittest.TestCase):
     def test_embed_ctypes(self):
         x=ctypes.c_int(5)
         y=ctypes.c_int(7)
-        embedc.inline_c_precompile("""
+        c.inline_c_precompile("""
             IMPORT int &x
             IMPORT int y
             x=y;
             """)
         self.assertEqual(x, 7)
-        self.assertRaises(embedc.EmbedParseError, self.sub_test_ctypes_error)
+        self.assertRaises(c.EmbedParseError, self.sub_test_ctypes_error)
         
     def sub_test_parse_error(self):
         x="xyz"
-        embedc.inline_c_precompile("""
+        c.inline_c_precompile("""
             IMPORT int x
             x=10;
             """)
     
     def test_embed_parse_error(self):
-        self.assertRaises(embedc.EmbedParseError, self.sub_test_parse_error)
+        self.assertRaises(c.EmbedParseError, self.sub_test_parse_error)
         
     def test_embed_ex_embed(self):
-        fxlib = embedc.embed_c("""
+        fxlib = c.embed_c("""
             int val() { return %d; }
             """ % 8)
         r = fxlib.val()
         self.assertEqual(r, 8)
 
     def test_embed_directives(self):
-        r = embedc.inline_c_precompile("""
+        r = c.inline_c_precompile("""
             GLOBAL int globalx;
             CC --version
             #include <math.h>
@@ -204,40 +204,40 @@ class TestSequenceFunctions(unittest.TestCase):
             """)
         self.assertEqual(r, 4)
         
-        r = embedc.inline_c_precompile("""
+        r = c.inline_c_precompile("""
             return globalx;
             """)
         self.assertEqual(r, 3)
 
-        r = embedc.inline_c_precompile("""
+        r = c.inline_c_precompile("""
             IMPORT int globalvariable;
             return globalvariable;
             """)
         self.assertEqual(r, 5)
 
-        r = embedc.inline_c("""
+        r = c.inline_c("""
             #include <math.h>
             return pow(8,2);
             """)
         self.assertEqual(r, 64)
 
     def test_embed_return_double(self):
-        r = embedc.inline_c_precompile("""
+        r = c.inline_c_precompile("""
             RETURN double 4.5;
             """)
         self.assertEqual(r, 4.5)
 
     def sub_test_embed_failcc(self):
-        embedc.embed_c("""
+        c.embed_c("""
             xxxint val() { return 1; }
             """)
         
     def test_embed_failcc(self):
-        self.assertRaises(embedc.EmbedCompileError, self.sub_test_embed_failcc)
+        self.assertRaises(c.EmbedCompileError, self.sub_test_embed_failcc)
 
     def test_embed_xgcc1(self):
         try:
-            r = embedc._EmbedCompile().testgcc()
+            r = c._EmbedCompile().testgcc()
         except:
             r = False
         self.assertEqual(r, True)
@@ -245,7 +245,7 @@ class TestSequenceFunctions(unittest.TestCase):
     def test_embed_xgcc2(self):
         try:
             ret = 1
-            ret = embedc._EmbedCompile().testgcc("cat", "no-file-here")
+            ret = c._EmbedCompile().testgcc("cat", "no-file-here")
             r = True
         except:
             r = False
@@ -254,20 +254,20 @@ class TestSequenceFunctions(unittest.TestCase):
         
     def test_embed_xgcc3(self):
         try:
-            embedc._EmbedCompile().testgcc("xxgcc")
+            c._EmbedCompile().testgcc("xxgcc")
             ok = 0
         except:
             ok = 1
         self.assertEqual(ok, 1)
 
     def test_embed_ex_inline(self):
-        r = embedc.inline_c("""
+        r = c.inline_c("""
                 return %d;
             """ % 4)
         self.assertEqual(r, 4)
     
     def test_embed_ex(self):
-        fxlib = embedc.embed_c_precompile("""
+        fxlib = c.embed_c_precompile("""
             int multval(int x1, int y1) {
                 return x1*y1;
             }
@@ -311,7 +311,7 @@ class TestSequenceFunctions(unittest.TestCase):
 
     def test_embed_simple_type_switch(self):
         vs = 1
-        r = embedc.inline_c_precompile("""
+        r = c.inline_c_precompile("""
             IMPORT ustring &vs
             vs = (wchar_t*)L"test";
             """)
@@ -319,7 +319,7 @@ class TestSequenceFunctions(unittest.TestCase):
         
     def test_embed_inline_importall(self):
         v = 1
-        r = embedc.inline_c("""
+        r = c.inline_c("""
             IMPORTALL
             IMPORT int v
             if (v==1) return 1;
@@ -327,14 +327,14 @@ class TestSequenceFunctions(unittest.TestCase):
             """)
         self.assertEqual(r, 1)
         
-        r = embedc.inline_c("""
+        r = c.inline_c("""
             if (v==1) return 1;
             return 0;
             """)
         self.assertEqual(r, 1)
 
         v = [5,6,7]
-        r = embedc.inline_c("""
+        r = c.inline_c("""
             v[1] = v[2];
             return v[1];
             """)
@@ -343,7 +343,7 @@ class TestSequenceFunctions(unittest.TestCase):
 
     def test_embed_function(self):
         mynum = 0.0
-        r = embedc.inline_c_precompile("""
+        r = c.inline_c_precompile("""
             DEF double mult double double
             IMPORT double &mynum
             mynum = mult(3.1, 2);
@@ -352,7 +352,7 @@ class TestSequenceFunctions(unittest.TestCase):
         
         # This test leaks memory, presumaby the string returned by "altstring"
         #mystr = "first"
-        #r = embedc.inline_c_precompile("""
+        #r = c.inline_c_precompile("""
         #    GLOBAL const char *savstr2;
         #    DEF string altstring string
         #    IMPORT string &mystr
@@ -364,15 +364,15 @@ class TestSequenceFunctions(unittest.TestCase):
         
     def test_embed_savelocals_errors(self):
         frame = inspect.currentframe()
-        r = embedc._savelocals(inspect.currentframe())
+        r = c._savelocals(inspect.currentframe())
         self.assertEqual(r, True)
-        self.assertRaises(embedc.SaveLocalsError, embedc._savelocals, 1)
-        self.assertRaises(embedc.SaveLocalsError, embedc._savelocals, None)
-        self.assertRaises(embedc.SaveLocalsError, embedc._savelocals, frame, 1)
-        self.assertRaises(embedc.SaveLocalsError, embedc._savelocals, frame, 2)
-        self.assertRaises(embedc.SaveLocalsError, embedc._savelocals, frame, 3)
-        self.assertRaises(embedc.SaveLocalsError, embedc._savelocals, frame, 4)
-        self.assertRaises(embedc.SaveLocalsError, embedc._savelocals, frame, 5)
+        self.assertRaises(c.SaveLocalsError, c._savelocals, 1)
+        self.assertRaises(c.SaveLocalsError, c._savelocals, None)
+        self.assertRaises(c.SaveLocalsError, c._savelocals, frame, 1)
+        self.assertRaises(c.SaveLocalsError, c._savelocals, frame, 2)
+        self.assertRaises(c.SaveLocalsError, c._savelocals, frame, 3)
+        self.assertRaises(c.SaveLocalsError, c._savelocals, frame, 4)
+        self.assertRaises(c.SaveLocalsError, c._savelocals, frame, 5)
 
 def mult(x, y):
     return x * y
