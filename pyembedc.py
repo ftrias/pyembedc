@@ -437,6 +437,7 @@ class _CodeFile:
                     inline = False
                 else:
                     funcx.append(line.rstrip())
+        fp.close()
 
 def _type2ctype(t, ev=False):
     if t == "string" or t == "str":
