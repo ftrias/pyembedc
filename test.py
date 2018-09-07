@@ -237,7 +237,7 @@ class TestSequenceFunctions(unittest.TestCase):
 
     def test_embed_xgcc1(self):
         try:
-            r = c._EmbedCompile().testgcc()
+            r = c._EmbedCompile().testcc()
         except:
             r = False
         self.assertEqual(r, True)

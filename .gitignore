@@ -1,5 +1,5 @@
 *.dll
-*.cpp.dll
+*.cpp.*
 __pycache__
 dist
 build

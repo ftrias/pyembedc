@@ -75,6 +75,9 @@ savefunc = {}
 # hash of CDLL objects for each source file
 mylib = {}
 
+# default compiler to use
+cc = ""
+
 # other global variables are scattered through the code where they are need. 
 # In addition, there is some initilization at the end
 
@@ -207,7 +210,7 @@ class _CodeFragment:
     prefunc = []
     postfunc = []
     lineno = 0
-    gcc = ""
+    gcc = cc
     inline = False
         
     def type2c(self, t, const=False):
@@ -287,7 +290,7 @@ class _CodeFragment:
             "#include <stdlib.h>"]
         self.postfunc = []
         self.rettype = "int"
-        self.gcc = ""
+        self.gcc = cc
         self.inline = inline
         self.lineno = lineno
         
@@ -315,7 +318,7 @@ class _CodeFragment:
                 self.prefunc.append(exp)
                 continue
             if directive == "CC":
-                self.gcc = line.replace("CC","", 1)
+                self.gcc = line.replace("CC","", 1).strip()
                 continue
             if directive == "IMPORTALL":
                 self.importall = True
@@ -727,17 +730,27 @@ class EmbedCompileError(Exception):
         return repr([self.value, self.ret, self.gcc, self.options, self.output])
 
 class _EmbedCompile:
-    def testgcc(self, cmd="gcc", opt="--version"):
-        try:
-            (ret, output) = self.run_capture([cmd, opt])
-        except:
-            raise
-        if ret == 0:
+    def testcc(self):
+        global cc
+        if cc != "":
             return True
-        raise EmbedCompileError("GCC not configured", ret, cmd, opt, output)
+        opt="--version"
+        ret = 0
+        cclist = ("gcc", "clang")
+        output=""
+        for cmd in cclist:
+            try:
+                (ret, output) = self.run_capture([cmd, opt])
+                if ret == 0:
+                    cc = cmd
+                    return True
+            except:
+                pass
+        raise EmbedCompileError("C compiler not found or configured", ret, cclist, opt, output)
 
     def run_capture(self, command):
         (out, filepath) = tempfile.mkstemp(".log")
+        # print("RUN", command)
         try:
             p = subprocess.Popen(command, stdout=out, stderr=out)
             ret = p.wait()
@@ -763,7 +776,7 @@ class _EmbedCompile:
         return self.compile_file(cpp, lib, gcc, True)
 
     def compile_file(self, filename, lib, gcc="", wipe=False):
-        parms = ["gcc", "-fPIC", "-lstdc++", "-shared", "-o", lib, filename]
+        parms = [gcc, "-fPIC", "-lstdc++", "-shared", "-o", lib, filename]
         (ret, output) = self.run_capture(parms)
         if ret == 0:
             if wipe:
@@ -784,11 +797,11 @@ class _EmbedCompile:
         return lib, funcname
 
         
-if platform.system() == "Linux":
-    windows = False
-    dllext = "so"
-else:
+if platform.system() == "Windows":
     windows = True
     dllext = "dll"
+else:
+    windows = False
+    dllext = "so"
 
-_EmbedCompile().testgcc()
+_EmbedCompile().testcc()
