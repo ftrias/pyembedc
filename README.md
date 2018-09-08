@@ -189,13 +189,13 @@ This module has been tested on:
 
 ## REFERENCES AND NOTES
 
-pyembedc makes heavy use of ctypes.
+pyembedc makes heavy use of the ctypes package.
 
-There are several alternatives to pyembedc. All of them have their pros and cons. Here are several:
+There are several alternatives to pyembedc. All of them have their pros and cons. Here are two:
 
-PyInline <http://pyinline.sourceforge.net/> is a module for inlining multiple languages in Python last updated in 2001 that predates ctypes. It seeks to copy Perl Inline <http://search.cpan.org/~sisyphus/Inline-0.45/C/C.pod>.
+* PyInline <http://pyinline.sourceforge.net/> is a module for inlining multiple languages in Python last updated in 2001 that predates ctypes. It seeks to copy Perl Inline <http://search.cpan.org/~sisyphus/Inline-0.45/C/C.pod>.
 
-ezpyinline <http://pypi.python.org/pypi/ezpyinline/0.1> is a fork of PyInline that provides a very simple interface for embedding C/C++ functions.
+* ezpyinline <http://pypi.python.org/pypi/ezpyinline/0.1> is a fork of PyInline that provides a very simple interface for embedding C/C++ functions last updated in 2007.
 
 Neither PyInline nor ezpyinline hande arrays. I think C provides the greatest speed advantage when looping over large amounts of data and performing multiple calculations. Without arrays or the ability to return more than one number (PyInline and ezpyinline provide only one return value), that advantage is hard to realize. pyembedc fixes these shortcoming by using ctypes to allow C/C++ to access and modify arrays.
 
