@@ -449,6 +449,10 @@ def _type2ctype(t, ev=False):
         typ = "ctypes.c_wchar_p"
     elif t == "void*" or t == "voidp":
         typ = "ctypes.c_void_p"
+    elif t == "float64":
+        typ = "ctypes.c_float"
+    elif t == "int64":
+        typ = "ctypes.c_int"
     else:
         typ = "ctypes.c_%s" % t
     if ev:
