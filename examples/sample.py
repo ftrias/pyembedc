@@ -5,8 +5,8 @@ def myround(number):
 
 def test(data):
     datalen = len(data)
-    mean = 0.0     // this is a double
-    stddev = 0.0   // declare these variables so they can be used by C code
+    mean = 0.0     # this is a double
+    stddev = 0.0   # declare these variables so they can be used by C code
     status="Calculate statistics"
     C("""
         #include <math.h>
