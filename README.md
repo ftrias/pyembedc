@@ -210,13 +210,17 @@ PyRex <http://wiki.python.org/moin/Pyrex> is a Python-like language that mixes C
 Cygwin:
     Cygwin has numerous problems with the test script because it quickly runs out of resources. The test script covers too many scenarios loading too many different DLLs for Cygwin to handle.
 
-    If you get an error like this on Windows:
+If you get an error like this on Windows:
+
         *** fatal error - unable to remap tmpE9X11V.cpp.dll to same address as parent(0x2B0000) != 0x3B0000
         python 5368 fork: child 1676 - died waiting for dll loading, errno 11
-    Check out http://inamidst.com/eph/cygwin for a possible solution.
 
-    Occasionally, this error might come up in the test.py script:
+Check out http://inamidst.com/eph/cygwin for a possible solution.
+
+Occasionally, this error might come up in the test.py script:
+
         OSError: [Errno 11] Resource temporarily unavailable
-    This is due to the limitations of Cygwin.
+
+This is due to the limitations of Cygwin.
     
 Local Variables: Modifying local variables is tricky and required pyembedc to call internal Python API functions. It has been tested on Python 2.5, 2.6, and 3.1 but may break in future versions if the internal representation of frames and variables changes.
