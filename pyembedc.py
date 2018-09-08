@@ -505,6 +505,12 @@ def _embed_or_inline_c(source, inline, filename=None, lineno=0):
         return r
     return tdll
 
+# Helper funcitons
+def array(x, c_type=None):
+  if c_type == None:
+    c_type = _type2ctype(type(x[0]).__name__, True)
+  return (c_type * len(x))(*x)
+
 # Getting frame info is slow on Windows
 def _get_source(fr):
     lineno = inspect.getframeinfo(fr)[1]
