@@ -23,11 +23,11 @@ python setup.py install
 ## SAMPLE CODE
 
 ```Python
-from embedc import C
+from pyembedc import C
 v = [5,6,7]
 vlen = len(v)
 vsum = 0;
-r = C("for(int i=0;i<vlen;i++) vsum += v[i];")
+C("for(int i=0;i<vlen;i++) vsum += v[i];")
 print(vsum)
 ```
 
@@ -36,7 +36,7 @@ print(vsum)
 To use the library, first you must import it:
 
 ```Python
-import embedc
+import pyembedc
 ```
 
 --------------
@@ -45,9 +45,9 @@ import embedc
 
 --------------
 
-#### `embedc.C(string) -> int`
-#### `embedc.inline_c(string) -> int`
-#### `embedc.inline_c_precompile(string) -> int`
+#### `pyembedc.C(string) -> int`
+#### `pyembedc.inline_c(string) -> int`
+#### `pyembedc.inline_c_precompile(string) -> int`
 
 These functions will compile `string` containing the C/C++ code or directives (see below) and then link dynamically and run the code.
 
@@ -68,9 +68,9 @@ v=%s
 
 --------------
 
-#### `embed_c(string) -> cdll`
+#### `pyembedc.embed_c(string) -> cdll`
 
-#### `embed_c_precompile(string) -> cdll`
+#### `pyembedc.embed_c_precompile(string) -> cdll`
 
 These functions are used to compile code but not execute immediately. They return a CDLL object (see the CDLL python module) that can be executed later.
 
@@ -197,11 +197,11 @@ PyInline <http://pyinline.sourceforge.net/> is a module for inlining multiple la
 
 ezpyinline <http://pypi.python.org/pypi/ezpyinline/0.1> is a fork of PyInline that provides a very simple interface for embedding C/C++ functions.
 
-Neither PyInline nor ezpyinline hande arrays. I think C provides the greatest speed advantage when looping over large amounts of data and performing multiple calculations. Without arrays or the ability to return more than one number (PyInline and ezpyinline provide only one return value), that advantage is hard to realize. embedc fixes these shortcoming by using ctypes to allow C/C++ to access and modify arrays.
+Neither PyInline nor ezpyinline hande arrays. I think C provides the greatest speed advantage when looping over large amounts of data and performing multiple calculations. Without arrays or the ability to return more than one number (PyInline and ezpyinline provide only one return value), that advantage is hard to realize. pyembedc fixes these shortcoming by using ctypes to allow C/C++ to access and modify arrays.
 
 These modules also don't provide an easy mechanism for accessing and altering Python variables from within the C/C++ code. With them, to modify variables from C, you have to code in the Python API, which is neither easy nor straightforward. 
 
-In addition, they require a working python development environment. This can be complex on Linux if you are not using standard packages, and is also difficult in Windows. By using ctypes, embedc does not require a working Python build environment, thus simplifying deployment because there is no need to configure include paths, lib paths and so forth. The only requirement is a working compiler.
+In addition, they require a working python development environment. This can be complex on Linux if you are not using standard packages, and is also difficult in Windows. By using ctypes, pyembedc does not require a working Python build environment, thus simplifying deployment because there is no need to configure include paths, lib paths and so forth. The only requirement is a working compiler.
 
 PyRex <http://wiki.python.org/moin/Pyrex> is a Python-like language that mixes C and Python to create Python modules. This is a very interesting approach, but isn't really Python and requires a great deal of expertise to use.
 
