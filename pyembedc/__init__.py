@@ -3,14 +3,14 @@
 # See LICENSE for Open Source details.
 #
 
-"""embedc Embed C/C++ code in Python source code
+"""pyembedc Embed C/C++ code in Python source code
 
-embedc enables Python source code to embed C/C++ snippets that seamlessly
+pyembedc enables Python source code to embed C/C++ snippets that seamlessly
 access and modify Python variables and call Python functions. 
 
 Simple example:
 
-    from embedc import C
+    from pyembedc import C
     v = 5
     r = C('''
         v = v * 10;
@@ -19,7 +19,7 @@ Simple example:
 
 Complex example:
 
-    from embedc import C
+    from pyembedc import C
 
     def myround(number):
         return round(number, 1)

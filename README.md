@@ -4,7 +4,7 @@ pyembedc enables Python source code to embed C/C++ snippets that seamlessly acce
 
 http://github.com/ftrias/pyembedc
 
-Version 1.2: 6 Sep 2018
+Version 1.23: 8 Sep 2018
 
 Copyright 2010-2018 by Fernando Trias
 See LICENSE for MIT license terms of use.
