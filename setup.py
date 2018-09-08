@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
     
 setuptools.setup(
     name="pyembedc",
-    version="1.25",
+    version="1.26",
     author="Fernando Trias",
     author_email="sub@trias.org",
     description="Embedded C/C++ in Python Source",
