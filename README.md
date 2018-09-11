@@ -191,7 +191,9 @@ This module has been tested on:
 
 pyembedc makes heavy use of the ctypes package.
 
-There are several alternatives to pyembedc. All of them have their pros and cons. Here are two:
+There are several alternatives to pyembedc. All of them have their pros and cons. Here are three:
+
+* Cython <http://cython.org> is a compiler that converts Python to C. It is very fast and mature and a wonderful tool for speeding up code. However, it does not embed C/C++.
 
 * PyInline <http://pyinline.sourceforge.net/> is a module for inlining multiple languages in Python last updated in 2001 that predates ctypes. It seeks to copy Perl Inline <http://search.cpan.org/~sisyphus/Inline-0.45/C/C.pod>.
 
@@ -204,6 +206,8 @@ These modules also don't provide an easy mechanism for accessing and altering Py
 In addition, they require a working python development environment. This can be complex on Linux if you are not using standard packages, and is also difficult in Windows. By using ctypes, pyembedc does not require a working Python build environment, thus simplifying deployment because there is no need to configure include paths, lib paths and so forth. The only requirement is a working compiler.
 
 PyRex <http://wiki.python.org/moin/Pyrex> is a Python-like language that mixes C and Python to create Python modules. This is a very interesting approach, but isn't really Python and requires a great deal of expertise to use.
+
+Cython, a derivative of PyRex, is a widely used and extemely efficient compiler for Python.
 
 ## KNOWN ISSUES:
 
